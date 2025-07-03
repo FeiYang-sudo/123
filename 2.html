@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 页面标题，可自定义 -->
+  <title>某市教育考试院 - 中考成绩查询</title>
+  <style>
+    /* 通用样式重置，清除默认边距和内边距，统一盒模型 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+
+    body {
+      background-color: #fff;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* 顶部banner区域 */
+    .banner {
+      width: 100%;
+      background: url('https://example.com/banner-bg.jpg') no-repeat center center; 
+      /* 实际项目替换为本地或真实banner图地址，这里用示例占位 */
+      background-size: cover;
+      text-align: center;
+      padding: 30px 0;
+    }
+
+    .banner img {
+      max-width: 150px; 
+      /* 模拟考试院logo尺寸，可根据实际调整 */
+      vertical-align: middle;
+    }
+
+    .banner h1 {
+      display: inline-block;
+      font-size: 28px;
+      color: #c30;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
+    /* 导航栏样式 */
+    .nav {
+      background-color: #0066cc;
+      padding: 10px 0;
+    }
+
+    .nav ul {
+      list-style: none;
+      text-align: center;
+    }
+
+    .nav li {
+      display: inline-block;
+      margin: 0 8px;
+    }
+
+    .nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    /* 主体内容容器 */
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 20px auto;
+      border: 1px solid #ddd;
+      padding: 20px;
+    }
+
+    .container h2 {
+      font-size: 20px;
+      color: #c30;
+      margin-bottom: 15px;
+    }
+
+    .form-item {
+      margin-bottom: 10px;
+    }
+
+    .form-item label {
+      display: inline-block;
+      width: 120px;
+      text-align: right;
+      margin-right: 10px;
+    }
+
+    .form-item input {
+      padding: 5px;
+      width: 200px;
+    }
+
+    .form-item button {
+      margin-left: 130px;
+      padding: 6px 20px;
+      cursor: pointer;
+    }
+
+    .notice {
+      margin-top: 20px;
+      border-top: 1px dashed #ddd;
+      padding-top: 15px;
+    }
+
+    .notice p {
+      margin-bottom: 8px;
+      line-height: 1.8;
+    }
+
+    .footer {
+      text-align: center;
+      color: #999;
+      font-size: 12px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 顶部banner -->
+  <div class="banner">
+    <!-- 替换为真实考试院logo -->
+    <img src="https://example.com/logo.png" alt="考试院logo"> 
+    <h1>某市教育考试院</h1>
+  </div>
+
+  <!-- 导航栏 -->
+  <div class="nav">
+    <ul>
+      <li><a href="#">网站首页</a></li>
+      <li><a href="#">新闻首页</a></li>
+      <li><a href="#">普通高招</a></li>
+      <li><a href="#">中考中招</a></li>
+      <li><a href="#">成人高招</a></li>
+      <li><a href="#">自学考试</a></li>
+      <li><a href="#">社会考试</a></li>
+      <li><a href="#">网上服务平台</a></li>
+      <li><a href="#">咨询中心</a></li>
+    </ul>
+  </div>
+
+  <!-- 主体内容 -->
+  <div class="container">
+    <h2>2024年中招考试九年级文化课成绩查询</h2>
+    <div class="form-item">
+      <label for="zkzh">准考证号：</label>
+      <input type="text" id="zkzh" placeholder="请输入准考证号">
+    </div>
+    <div class="form-item">
+      <label for="sfzh">身份证后4位：</label>
+      <input type="text" id="sfzh" placeholder="请输入身份证后4位">
+    </div>
+    <div class="form-item">
+      <button type="button" onclick="queryResult()">提交</button>
+    </div>
+    <div class="form-item" id="result" style="display: none; margin-left: 130px;">
+      查询结果：<span id="resultText"></span>
+    </div>
+
+    <div class="notice">
+      <p>2024年南阳市中招考试初中九年级文化课成绩将于7月7日零时公布，考生可通过以下方式查询本人成绩：</p>
+      <p>1、通过微信扫描准考证上的个人二维码查询。</p>
+      <p>2、登录 “某市教育考试院” 查询（网址：<a href="https://www.example.cn" target="_blank">https://www.example.cn</a> ）。</p>
+      <p>3、通过 “爱城市” APP查询。</p>
+      <p>初中八年级生物、地理两科考试成绩以等级呈现，全市统一按比例划分为A、B、C、D四个等级后，7月18日开始公布。</p>
+      <p>注意：准考证号在准考证上，如果准考证已上交学校，可以向学校要。</p>
+      <p>需要补办准考证的与当地县区招办联系补办，不能以电话形式查询准考证号。</p>
+    </div>
+  </div>
+
+  <!-- 页脚信息 -->
+  <div class="footer">
+    <p>网站首页 | 新闻首页 | 关于我们 | 联系我们 | 豫ICP备11022161号-2</p>
+    <p>版权所有 某市教育考试院 ※ 更新日期：2024年07月</p>
+    <p>豫公网安备 41133202000102号</p>
+    <p>今天是2025年07月03日 星期四</p>
+  </div>
+
+  <script>
+    // 模拟查询逻辑，仅前端弹窗演示，无真实接口
+    function queryResult() {
+      const zkzh = document.getElementById('zkzh').value;
+      const sfzh = document.getElementById('sfzh').value;
+      const resultDiv = document.getElementById('result');
+      const resultText = document.getElementById('resultText');
+
+      if (!zkzh || !sfzh) {
+        resultText.innerText = '请填写完整信息！';
+      } else {
+        // 实际应调用后端接口，这里模拟成功提示
+        resultText.innerText = '查询成功！（仅演示，无真实数据）';
+      }
+      resultDiv.style.display = 'block';
+    }
+  </script>
+</body>
+
+</html>
