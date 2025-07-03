@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2025年中考成绩查询系统</title>
+  <style>
+    /* 基础样式 */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft YaHei", sans-serif; }
+    body { background-color: #f5f7fa; color: #333; line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    
+    /* 头部样式 */
+    header { text-align: center; padding: 30px 0; background: linear-gradient(135deg, #4a90e2, #2979ff); color: white; border-radius: 8px 8px 0 0; }
+    header h1 { font-size: 28px; margin-bottom: 10px; }
+    header p { font-size: 16px; opacity: 0.9; }
+    
+    /* 主内容区 */
+    main { background: white; border-radius: 0 0 8px 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 30px; }
+    .notice { background-color: #fff8e1; border-left: 4px solid #ff9800; padding: 15px; margin-bottom: 25px; border-radius: 4px; }
+    .notice h3 { color: #e65100; margin-bottom: 5px; }
+    
+    /* 查询表单 */
+    .query-form { margin-bottom: 30px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+    .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; }
+    .form-group button { background-color: #2979ff; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 4px; cursor: pointer; width: 100%; transition: background-color 0.3s; }
+    .form-group button:hover { background-color: #1976d2; }
+    
+    /* 结果展示区（默认隐藏） */
+    .result-section { display: none; padding: 20px; border-top: 1px solid #eee; margin-top: 20px; }
+    .result-section h3 { color: #333; margin-bottom: 15px; }
+    .score-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    .score-table th, .score-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+    .score-table th { background-color: #f8f9fa; font-weight: bold; }
+    .total-score { font-size: 18px; font-weight: bold; color: #e65100; margin-bottom: 15px; }
+    .tips { background-color: #e3f2fd; padding: 15px; border-radius: 4px; font-size: 14px; }
+    
+    /* 响应式设计 */
+    @media (max-width: 600px) {
+      header h1 { font-size: 24px; }
+      main { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>2025年中考成绩查询系统</h1>
+      <p>请输入相关信息查询你的中考成绩</p>
+    </header>
+    
+    <main>
+      <!-- 公告通知 -->
+      <div class="notice">
+        <h3>重要通知</h3>
+        <p>2025年中考成绩查询时间为7月5日-7月15日，录取分数线将于7月8日公布，请考生提前准备好准考证和身份证信息。</p>
+      </div>
+      
+      <!-- 查询表单 -->
+      <div class="query-form">
+        <h2>中考成绩查询</h2>
+        <form id="queryForm">
+          <div class="form-group">
+            <label for="idCard">身份证号</label>
+            <input type="text" id="idCard" placeholder="请输入18位身份证号" required>
+          </div>
+          <div class="form-group">
+            <label for="examNumber">准考证号</label>
+            <input type="text" id="examNumber" placeholder="请输入10位准考证号" required>
+          </div>
+          <div class="form-group">
+            <label for="name">姓名</label>
+            <input type="text" id="name" placeholder="请输入姓名" required>
+          </div>
+          <div class="form-group">
+            <button type="submit">查询成绩</button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- 成绩结果展示（默认隐藏） -->
+      <div class="result-section" id="resultSection">
+        <h3>你的中考成绩</h3>
+        <p><strong>考生信息</strong>：<span id="displayName"></span> - <span id="displayExamNumber"></span></p>
+        
+        <table class="score-table">
+          <thead>
+            <tr>
+              <th>科目</th>
+              <th>满分</th>
+              <th>得分</th>
+              <th>等级</th>
+            </tr>
+          </thead>
+          <tbody id="scoreTableBody">
+            <!-- 成绩数据将通过JS动态填充 -->
+          </tbody>
+        </table>
+        
+        <div class="total-score">总分：<span id="totalScore">0</span> / 750分</div>
+        
+        <div class="tips">
+          <p><strong>温馨提示</strong>：若对成绩有疑问，可于7月10日前向所在学校提出复核申请；录取结果将于7月12日开放查询。</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // 模拟后端数据（实际开发中需替换为API请求）
+    const mockExamData = {
+      "1101012025001": {  // 准考证号为键
+        idCard: "110101200701011234",
+        name: "张三",
+        scores: {
+          chinese: { full: 120, score: 105, level: "A" },
+          math: { full: 120, score: 112, level: "A" },
+          english: { full: 120, score: 98, level: "B+" },
+          physics: { full: 100, score: 85, level: "A-" },
+          chemistry: { full: 80, score: 72, level: "A" },
+          politics: { full: 60, score: 50, level: "B" },
+          history: { full: 60, score: 55, level: "A-" },
+          physical: { full: 40, score: 38, level: "A" }
+        },
+        total: 615
+      }
+    };
+    
+    // 表单提交事件
+    document.getElementById('queryForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const idCard = document.getElementById('idCard').value;
+      const examNumber = document.getElementById('examNumber').value;
+      const name = document.getElementById('name').value;
+      
+      // 模拟数据验证（实际需对接后端API）
+      const studentData = mockExamData[examNumber];
+      
+      if (studentData && studentData.idCard === idCard && studentData.name === name) {
+        // 显示成绩结果
+        document.getElementById('displayName').textContent = name;
+        document.getElementById('displayExamNumber').textContent = examNumber;
+        document.getElementById('totalScore').textContent = studentData.total;
+        
+        const scoreTableBody = document.getElementById('scoreTableBody');
+        scoreTableBody.innerHTML = '';
+        
+        // 填充科目成绩
+        Object.entries(studentData.scores).forEach(([subject, info]) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${getSubjectName(subject)}</td>
+            <td>${info.full}</td>
+            <td>${info.score}</td>
+            <td>${info.level}</td>
+          `;
+          scoreTableBody.appendChild(row);
+        });
+        
+        document.getElementById('resultSection').style.display = 'block';
+        
+        // 滚动到结果区域
+        document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+      } else {
+        alert('查询信息有误，请检查身份证号、准考证号和姓名是否正确！');
+      }
+    });
+    
+    // 科目名称映射（方便显示）
+    function getSubjectName(subject) {
+      const subjectMap = {
+        chinese: '语文',
+        math: '数学',
+        english: '英语',
+        physics: '物理',
+        chemistry: '化学',
+        politics: '政治',
+        history: '历史',
+        physical: '体育'
+      };
+      return subjectMap[subject] || subject;
+    }
+  </script>
+</body>
+</html>
